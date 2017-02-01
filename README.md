@@ -1,8 +1,8 @@
 # Ducks: Redux Reducer Bundles
 
 <img src="duck.jpg" align="right"/>
-我发现在创建redux应用时，按照功能性划分，每次都添加`{actionTypes, actions, reducer}`这样的组合。我之前会把它们分成不同的文件，甚至分到不同的文件夹，但是95%的情况下，只有一对 reducer/actions 会用到对应的 actions。
-对我来说，把这些相关的代码放在一个独立的文件中更方便，这样还能够很容易的打包到软件库／包中。
+我发现在创建redux应用时，按照功能性划分，每次会都添加`{actionTypes, actions, reducer}`这样的组合。我之前会把它们分成不同的文件，甚至分到不同的文件夹，但是95%的情况下，只有一对 reducer/actions 会用到对应的 actions。
+对我来说，把这些相关的代码放在一个独立的文件中更方便，这样做还可以很容易的打包到软件库／包中。
 
 ## 提议
 ### 示例
@@ -52,15 +52,15 @@ export function removeWidget(widget) {
 3. **必须**  把 action types 定义成形为 `npm-module-or-app/reducer/ACTION_TYPE` 的字符串
 3. 如果有外部的reducer需要监听这个action type，或者作为可重用的库发布时， **可以**  用 `UPPER_SNAKE_CASE` 形式 export 它的 action types。
 
-These same guidelines are recommended for `{actionType, action, reducer}` bundles that are shared as reusable Redux libraries.
+上述规则也推荐用在可重用的redux 库中用来组织`{actionType, action, reducer}`
 
-### Name
+### 名称
 
-Java has jars and beans. Ruby has gems. I suggest we call these reducer bundles "ducks", as in the last syllable of "redux".
+Java 有 jars 和 beans. Ruby 有 gems. 我建议我们把这些 reducer 文件包称为 "ducks"，也就是 "redux" 的结尾音。
 
-### Usage
+### 用法
 
-You can still do:
+你可以这样:
 
 ```javascript
 import { combineReducers } from 'redux';
@@ -70,14 +70,14 @@ const rootReducer = combineReducers(reducers);
 export default rootReducer;
 ```
 
-You can still do:
+你也可以这样:
 
 ```javascript
 import * as widgetActions from './ducks/widgets';
 ```
-...and it will only import the action creators, ready to be passed to `bindActionCreators()`.
+... 这样它只会引入action creators, 可以传给`bindActionCreators()`.
 
-There will be some times when you want to `export` something other than an action creator. That's okay, too. The rules don't say that you can *only* `export` action creators. When that happens, you'll just have to enumerate the action creators that you want. Not a big deal.
+如果你除了action creator 以外，还 `export` 了其他的变量/函数，也没有问题。上面的规则并不是说你 *只能* `export` action creators 。如果是这种情况，你需要做的就是把你需要的action creator 引入，然后传给 bindActionCreators 
 
 ```javascript
 import {loadWidgets, createWidget, updateWidget, removeWidget} from './ducks/widgets';
@@ -85,19 +85,19 @@ import {loadWidgets, createWidget, updateWidget, removeWidget} from './ducks/wid
 bindActionCreators({loadWidgets, createWidget, updateWidget, removeWidget}, dispatch);
 ```
 
-### Example
+### 示例
 
 [React Redux Universal Hot Example](https://github.com/erikras/react-redux-universal-hot-example) uses ducks. See [`/src/redux/modules`](https://github.com/erikras/react-redux-universal-hot-example/tree/master/src/redux/modules).
 
 [Todomvc using ducks.](https://github.com/goopscoop/ga-react-tutorial/tree/6-reduxActionsAndReducers)
 
-### Implementation
+### 实现
 
-The migration to this code structure was [painless](https://github.com/erikras/react-redux-universal-hot-example/commit/3fdf194683abb7c40f3cb7969fd1f8aa6a4f9c57), and I foresee it reducing much future development misery.
+ 迁移代码结构的过程堪称[无痛](https://github.com/erikras/react-redux-universal-hot-example/commit/3fdf194683abb7c40f3cb7969fd1f8aa6a4f9c57), 我能够预见到这样做会减少很多的开发痛苦。
 
-Please submit any feedback via an issue or a tweet to [@erikras](https://twitter.com/erikras). It will be much appreciated.
+有任何问题或者反馈欢迎通过新建github issue 或者 tweet 到 [@erikras](https://twitter.com/erikras)。
 
-Happy coding!
+编码愉快!
 
 -- Erik Rasmussen
 
@@ -105,7 +105,7 @@ Happy coding!
 ### Translation
 
 [한국어](https://github.com/JisuPark/ducks-modular-redux)
-
+[中文](https://github.com/deadivan/ducks-modular-redux)
 ---
 
 ![C'mon! Let's migrate all our reducers!](migrate.jpg)
