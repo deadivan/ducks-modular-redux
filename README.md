@@ -1,16 +1,13 @@
 # Ducks: Redux Reducer Bundles
 
 <img src="duck.jpg" align="right"/>
+我发现在创建redux应用时，按照功能性划分，每次都添加`{actionTypes, actions, reducer}`这样的组合。我之前会把它们分成不同的文件，甚至分到不同的文件夹，但是95%的情况下，只有一对 reducer/actions 会用到对应的 actions。
+对我来说，把这些相关的代码放在一个独立的文件中更方便，这样还能够很容易的打包到软件库／包中。
 
-I find as I am building my redux app, one piece of functionality at a time, I keep needing to add  `{actionTypes, actions, reducer}` tuples for each use case. I have been keeping these in separate files and even separate folders, however 95% of the time, it's only one reducer/actions pair that ever needs their associated actions.
+## 提议
+### 示例
 
-To me, it makes more sense for these pieces to be bundled together in an isolated module that is self contained, and can even be packaged easily into a library.
-
-## The Proposal
-
-### Example
-
-See also: [Common JS Example](CommonJs.md).
+可参见: [Common JS Example](CommonJs.md).
 
 ```javascript
 // widgets.js
@@ -46,14 +43,14 @@ export function removeWidget(widget) {
   return { type: REMOVE, widget };
 }
 ```
-### Rules
+### 规则
 
-A module...
+一个模块 ...
 
-1. MUST `export default` a function called `reducer()`
-2. MUST `export` its action creators as functions
-3. MUST have action types in the form `npm-module-or-app/reducer/ACTION_TYPE`
-3. MAY export its action types as `UPPER_SNAKE_CASE`, if an external reducer needs to listen for them, or if it is a published reusable library
+1. **必须** `export default` 函数名为 `reducer()` 的 reducer
+2. **必须**  作为函数 `export` 它的 action creators 
+3. **必须**  把 action types 定义成形为 `npm-module-or-app/reducer/ACTION_TYPE` 的字符串
+3. 如果有外部的reducer需要监听这个action type，或者作为可重用的库发布时， **可以**  用 `UPPER_SNAKE_CASE` 形式 export 它的 action types。
 
 These same guidelines are recommended for `{actionType, action, reducer}` bundles that are shared as reusable Redux libraries.
 
